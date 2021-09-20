@@ -1,0 +1,41 @@
+version: '3.1'
+
+services:
+  ssh-backup-tool:
+    image: pigeosolutions/ssh-backup-toolbox:latest
+    restart: always
+    ports:
+      - "2222:22"
+    environment:
+      - RESTIC_REPOSITORY=sftp:myusername@my.nas.server.syn:/georchestra/restic_bk
+      - RESTIC_PASSWORD_FILE=/run/secrets/restic-password
+      - RESTIC_OPTION=sftp.command="sshpass -f/run/secrets/restic-ssh-passwd ssh -p 2222 -o StrictHostKeyChecking=no myusername@my.nas.server.syn -s sftp"
+      - SSH_ROOT_AUTHORIZED_KEYS_FILE=/run/secrets/root-authorized-keys
+      - SSH_RSA_PRIVATE_KEY_FILE=/run/secrets/ssh-private-rsa-key
+      - POSTGRES_USER=georchestra
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
+      - POSTGRES_HOST=database.georchestra
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=georchestra
+    volumes:
+      - /home/jean/tmp/content1:/mnt/content1
+      - /home/jean/tmp/content2:/mnt/content2
+
+    secrets:
+      - restic-password
+      - restic-ssh-passwd
+      - root-authorized-keys
+      - ssh-private-rsa-key
+      - postgres-password
+
+secrets:
+  restic-password:
+    file: ./docker/secrets/RESTIC_PASSWD
+  restic-ssh-passwd:
+    file: ./docker/secrets/RESTIC_SSH_PASSWD
+  root-authorized-keys:
+    file: ./docker/secrets/ROOT_AUTHORIZED_KEYS
+  ssh-private-rsa-key:
+    file: ./docker/secrets/SSH_PRIVATE_RSA_KEY
+  postgres-password:
+    file: ./docker/secrets/POSTGRES_PASSWD

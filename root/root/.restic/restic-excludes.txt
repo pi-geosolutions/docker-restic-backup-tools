@@ -1,0 +1,7 @@
+**/.git
+**/tmp
+geonetwork_datadir/wro4j*
+geonetwork_datadir/*.log
+geonetwork_datadir/*.log.*
+geonetwork_datadir/index
+geonetwork_datadir/data/metadata_subversion

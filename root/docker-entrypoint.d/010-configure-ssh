@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+source /root/scripts/utils.sh
+
+# set root's authorized ssh keys. Allows using a _FILE var (use secrets)
+mkdir -p /root/.ssh
+chmod 755 /root/.ssh
+touch /root/.ssh/authorized_keys
+
+file_env 'SSH_ROOT_AUTHORIZED_KEYS'
+# if [ "$SSH_ROOT_AUTHORIZED_KEYS_FILE" ] && [ -f $SSH_ROOT_AUTHORIZED_KEYS_FILE ]; then
+#     echo `cat $SSH_ROOT_AUTHORIZED_KEYS_FILE` > /root/.ssh/authorized_keys
+# fi
+if [ "$SSH_ROOT_AUTHORIZED_KEYS" ]; then
+    echo "$SSH_ROOT_AUTHORIZED_KEYS" > /root/.ssh/authorized_keys
+fi
+chmod 600 /root/.ssh/authorized_keys
+
+# Set id_rsa key. Useful for Git access for geoserver-datadir
+# if using a key configured for the gitlab account
+if [ -n "$SSH_RSA_PRIVATE_KEY_FILE" ]; then
+  echo "Installing rsa private key from secret"
+  cp $SSH_RSA_PRIVATE_KEY_FILE /root/.ssh/id_rsa
+fi
+chmod -R go-rx ~/.ssh
+
+
+# Load sshd config & SSH key from kubernetes secret if provided
+if [ "$SSHD_CONFIG_SECRET" ]; then
+  for f in sshd_config ssh_host_ed25519_key ssh_host_ed25519_key.pub; do
+    if [ -f "$SSHD_CONFIG_SECRET/$f" ]; then
+      echo cp $SSHD_CONFIG_SECRET/$f /etc/ssh/
+      cp $SSHD_CONFIG_SECRET/$f /etc/ssh/
+      chmod 644 /etc/ssh/$f
+    fi
+  done
+  chmod 600 /etc/ssh/*_key
+else
+  # Generate Host keys, if required
+  if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
+      ssh-keygen -A
+  fi
+fi

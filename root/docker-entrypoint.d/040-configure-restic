@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+# Update restic to latest version
+restic self-update
+
+# Define alias for restic command so we don't have to specify the SFTP option
+tee /root/.resticrc2 << EOT
+# Restic config options will be copied there on startup.
+# You need to source this file from every script that is supposed to use restic.
+# It is also sourced by .bashrc, so that root user has the restic command available when connecting on ssh
+
+echo "export RESTIC_REPOSITORY=$RESTIC_REPOSITORY"
+echo "export RESTIC_PASSWORD_FILE=$RESTIC_PASSWORD_FILE"
+echo "alias restic='restic -o ${RESTIC_OPTION}'"
+echo "alias restic_backup='restic -H ${HOST} -o ${RESTIC_OPTION} --exclude-file=/root/.restic/restic-excludes.txt'"
+EOT
+
+echo "source /root/.resticrc" >> /root/.bashrc

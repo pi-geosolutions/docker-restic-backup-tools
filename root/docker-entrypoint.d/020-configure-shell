@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+#get a nice prompt with project name
+echo "export PS1='\[\e]0;\u@\h: \w\a\]\${debian_chroot:+(\$debian_chroot)}\u@${NAME}:\w\$ '" >> /etc/profile
+
+#coloration syntaxique pour root
+echo "set bg=dark" > /root/.vimrc
+echo "syntax on" >> /root/.vimrc

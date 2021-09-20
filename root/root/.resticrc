@@ -1,0 +1,3 @@
+# Restic config options will be copied there on startup.
+# You need to source this file from every script that is supposed to use restic.
+# It is also sourced by .bashrc, so that root user has the restic command available when connecting on ssh
