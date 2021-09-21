@@ -51,7 +51,7 @@ fi
 # pg_dumpall --clean
 echo "`date +%F-%T` Postgresql dump successful"
 # list files
-ls -dn1 $PWD/*
+ls -dn1 /dbs/postgresql_${PGHOST}_${PGPORT}/*
 
 if [[ "$DUMP_ONLY" =~ ^(yes|true|y|1)$ ]]; then
   echo "Stopping there (DUMP_ONLY set to yes)"

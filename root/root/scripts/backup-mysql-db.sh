@@ -29,7 +29,7 @@ fi
 echo "`date +%F-%T` MySQL dump successful"
 echo "`date +%F-%T` LDAP dump successful"
 # list files
-ls -dn1 $PWD/*
+ls -dn1 /dbs/mysql_${MYSQL_HOST}_${MYSQL_PORT}/*
 
 if [[ "$DUMP_ONLY" =~ ^(yes|true|y|1)$ ]]; then
   echo "Stopping there (DUMP_ONLY set to yes)"

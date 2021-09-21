@@ -9,7 +9,7 @@ backup through SFTP on a synology NAS (see below for how to set the env var for 
 
 ## Environment variables
 
-### Environment var (needed)
+### Environment vars
 
 - `SSH_ROOT_AUTHORIZED_KEYS` or `SSH_ROOT_AUTHORIZED_KEYS_FILE` SSH public key(s) that will be allowed to connect as root to this service
 - `HOST`: hostname as it will be remembered by restic backups.
