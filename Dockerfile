@@ -14,6 +14,7 @@ ENV SSH_PASSWD_FILE ""
 # install ssh server + system utilities
 RUN apt-get update && \
     apt-get install -y \
+                acl \
                 bzip2 \
                 git \
                 ldap-utils \

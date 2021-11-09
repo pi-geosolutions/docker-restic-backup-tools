@@ -63,12 +63,21 @@ if [ $? -ne 0 ]; then
   fi
 fi
 echo "`date +%F-%T` Starting backups"
+mkdir -p /tmp/ACLs
 # iterate through all folders in /mnt and run a backup on each of them
 for f in $(ls -d ${MNT_PATH}/*); do
   echo "`date +%F-%T` Starting backup for folder $f"
+  # Save ACLs for this folder
+  getfacl -R $f > /tmp/ACLs/$(basename -- $f).acls.txt
+  # Run restic backup
   restic_backup backup $f
   echo "`date +%F-%T` Folder $f backed up"
 done
+
+echo "`date +%F-%T` Starting backup for ACLs"
+# backup ACLs
+restic_backup backup /tmp/ACLs
+rm -rf /tmp/ACLs
 
 if [ "$CLEAN" == "true" ]; then
   # clean old snapshots
