@@ -76,6 +76,7 @@ done
 
 echo "`date +%F-%T` Starting backup for ACLs"
 # backup ACLs
+cp /root/scripts/ACLs-readme.md /tmp/ACLs/
 restic_backup backup /tmp/ACLs
 rm -rf /tmp/ACLs
 
