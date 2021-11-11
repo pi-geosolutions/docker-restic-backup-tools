@@ -19,9 +19,9 @@ chmod 600 /root/.ssh/authorized_keys
 
 # Set id_rsa key. Useful for Git access for geoserver-datadir
 # if using a key configured for the gitlab account
-if [ -n "$SSH_RSA_PRIVATE_KEY_FILE" ]; then
-  echo "Installing rsa private key from secret"
-  cp $SSH_RSA_PRIVATE_KEY_FILE /root/.ssh/id_rsa
+if [ -n "$ROOT_SSH_KEYS_PATH" ]; then
+  echo "Installing private keys from secret"
+  cp $ROOT_SSH_KEYS_PATH/* /root/.ssh/
 fi
 chmod -R go-rx ~/.ssh
 

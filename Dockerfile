@@ -33,7 +33,7 @@ RUN mkdir /var/run/sshd && \
 
 EXPOSE 22
 
-ENV NAME=restore-console
+ENV NAME=backup-toolbox
 
 COPY root /
 RUN chmod +x /root/scripts/* &&\
