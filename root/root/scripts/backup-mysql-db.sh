@@ -9,7 +9,7 @@
 # MYSQL_PASSWORD or ideally MYSQL_PASSWORD_FILE in a secret
 #
 # export MYSQL_HOST=$MYSQL_HOST
-# export MYSQL_USER=$POSTGRES_USER
+# export MYSQL_USER=$MYSQL_USER
 # export MYSQL_PORT=$MYSQL_PORT
 
 # get password from FILE if possible
