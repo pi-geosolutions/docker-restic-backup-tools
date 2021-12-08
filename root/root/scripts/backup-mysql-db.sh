@@ -15,6 +15,18 @@
 # get password from FILE if possible
 source /root/scripts/utils.sh
 file_env 'MYSQL_PASSWORD'
+
+# If we're using the root user, it happens (like in the k8s setup using envFrom a secret)
+# that the password will actually be stored in MYSQL_ROOT_PASSWORD env var, MYSQL_PASSWORD
+# being the less-privileged, common user's password
+# In that case, we will override the MYSQL_PASSWORD env var, that will be used in
+# the rest of this script for the authentication of our backup user (likely to be root)
+if [[ "$MYSQL_USER" == "root" ]]; then
+  file_env 'MYSQL_ROOT_PASSWORD'
+  if [[ ! -z $MYSQL_ROOT_PASSWORD ]]; then
+    MYSQL_PASSWORD=$MYSQL_ROOT_PASSWORD
+  fi
+fi
 # export MYSQL_PASSWORD=$MYSQL_PASSWORD
 
 echo "`date +%F-%T` Backing up the postgresql DB  on ${MYSQL_HOST}:${MYSQL_PORT}"
