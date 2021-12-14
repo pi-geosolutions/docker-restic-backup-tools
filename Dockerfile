@@ -16,6 +16,7 @@ RUN apt-get update && \
     apt-get install -y \
                 acl \
                 bzip2 \
+                curl \
                 git \
                 ldap-utils \
                 mariadb-client \
