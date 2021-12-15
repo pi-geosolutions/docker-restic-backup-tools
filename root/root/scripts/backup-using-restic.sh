@@ -71,18 +71,19 @@ for f in $(ls -d ${MNT_PATH}/*); do
   getfacl -R $f > /tmp/ACLs/$(basename -- $f).acls.txt
   # Run restic backup
   restic_backup backup $f
+  echo "`date +%F-%T` Folder $f backed up"
   # Write metrics
+  echo "sending metrics..."
   if [[ "$?" == "0" ]] && [[ -n $PUSHGATEWAY_URI ]] ; then
     #Encode the folder path as explained in https://github.com/prometheus/pushgateway#url
     folder_base64=$(echo $f | base64 -)
     # Send a complex (non-counter type, documented) metric as suggested in https://github.com/prometheus/pushgateway#command-line
-cat <<EOF | curl --data-binary @- http://$PUSHGATEWAY_URI/metrics/job/restic_backup/folder@base64/L21udC9leHRyYWN0b3JhcHBfZXh0cmFjdHMK
+cat <<EOF | curl --data-binary @- http://$PUSHGATEWAY_URI/metrics/job/restic_backup/folder@base64/$folder_base64
 # TYPE job_last_success_unixtime gauge
 # HELP job_last_success_unixtime Last time the job was run
 job_last_success_unixtime $(date +%s)
 EOF
   fi
-  echo "`date +%F-%T` Folder $f backed up"
 done
 
 echo "`date +%F-%T` Starting backup for ACLs"
