@@ -50,7 +50,7 @@ restic snapshots -q --last
 # If exit code != 0, we need to initialize the repo
 if [ $? -ne 0 ]; then
   if [ "$NOINIT" == "true" ]; then
-    echo "Restic repo no initialized yet. Aborting the operation."
+    echo "Restic repo not initialized yet. Aborting the operation."
     exit 1;
   fi
   echo "Initializing the backup repo for restic"
@@ -93,6 +93,6 @@ restic_backup backup /tmp/ACLs
 rm -rf /tmp/ACLs
 
 if [ "$CLEAN" == "true" ]; then
-  # clean old snapshots
+  echo "clean old snapshots"
   /root/scripts/house-keeping.sh
 fi
