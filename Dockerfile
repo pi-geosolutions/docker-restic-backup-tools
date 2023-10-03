@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 MAINTAINER Jean Pommier "jp@pi-geosolutions.fr"
 # Gives a SSH access + restic and a few useful tools
 
@@ -28,6 +28,10 @@ RUN apt-get update && \
                 sshpass \
                 vim \
                 wget
+
+# Upgrade restic to latest release as documented on
+# https://restic.readthedocs.io/en/latest/020_installation.html#official-binaries
+RUN restic self-update
 
 RUN mkdir /var/run/sshd && \
     chmod 0755 /var/run/sshd
