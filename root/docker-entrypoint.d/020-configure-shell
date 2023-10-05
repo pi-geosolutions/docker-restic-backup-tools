@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "Configure Shell"
+
 #get a nice prompt with project name
 echo "export PS1='\[\e]0;\u@\h: \w\a\]\${debian_chroot:+(\$debian_chroot)}\u@${NAME}:\w\$ '" >> /etc/profile
 

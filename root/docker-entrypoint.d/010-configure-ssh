@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "Configure SSH"
+
 source /root/scripts/utils.sh
 
 # set root's authorized ssh keys. Allows using a _FILE var (use secrets)

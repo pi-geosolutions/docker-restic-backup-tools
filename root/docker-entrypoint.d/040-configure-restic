@@ -2,9 +2,13 @@
 # Define alias for restic command so we don't have to specify the SFTP option
 set -e
 
+echo "Configure restic"
+
 echo "alias restic='restic -o ${RESTIC_OPTION}'" >> /root/.resticrc
 echo "alias restic_backup='restic -H ${HOST} -o ${RESTIC_OPTION} --exclude-file=/root/.restic/restic-excludes.txt'" >> /root/.resticrc
 echo "source /root/.resticrc" >> /root/.bashrc
 
 # Update restic to latest version
 #restic self-update
+
+echo "Ready"
