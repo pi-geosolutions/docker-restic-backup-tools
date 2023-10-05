@@ -46,7 +46,7 @@ source /root/.resticrc
 # init repo if necessary
 # test if repo is initialized : following command should return exit code 0
 # see https://restic.readthedocs.io/en/stable/075_scripting.html
-restic snapshots -q --last
+restic snapshots -q --latest 1
 # If exit code != 0, we need to initialize the repo
 if [ $? -ne 0 ]; then
   if [ "$NOINIT" == "true" ]; then
