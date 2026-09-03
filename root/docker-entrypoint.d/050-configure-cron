@@ -1,0 +1,10 @@
+#!/bin/bash
+# Configure crontab to run the task
+set -e
+
+if [ -f /root/scripts/$CRON_TASK ] && [ -z $CRON_TIME ]; then
+  echo "Configure crontab"
+  chmod +x /root/scripts/$CRON_TASK
+  echo "$CRON_TIME /root/scripts/$CRON_TASK" > /etc/cron.d/Crontab
+  echo "Cron ready"
+fi

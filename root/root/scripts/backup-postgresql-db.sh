@@ -45,7 +45,7 @@ echo "`date +%F-%T` Backing up the postgresql DB  on ${PGHOST}:${PGPORT}"
 mkdir -p /dbs/postgresql_${PGHOST}_${PGPORT}/
 pg_dumpall --clean | gzip -9 > /dbs/postgresql_${PGHOST}_${PGPORT}/pg_dump_all.sql.gz
 if [ $? -ne 0 ]; then
-  echo "Failure running mysqldump"
+  echo "Failure running pg_dumpall"
   exit 1;
 fi
 # pg_dumpall --clean

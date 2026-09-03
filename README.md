@@ -97,3 +97,12 @@ But for scripting, you need to load the configuration. You can start your script
 shopt -s expand_aliases
 source /root/.resticrc
 ```
+
+## Running as a cron task _inside docker_
+
+While K8S has cronjobs, docker Swarm doesn't, nor does plain docker compose.
+This image ships with the `cron` binary, so that you can run a task as a cron job from inside the container. To activate this mode, you need to set the following environment variables:
+- CRON_TIME="* * * * *" or any other cron-compatible schedule
+- CRON_TASK="backup-postgresql-db.sh" (any script name from root/scripts will work)
+- change the CMD to `cron && tail -f /var/log/cron.log`
+- and of course the environment variables needed for the selected script to run

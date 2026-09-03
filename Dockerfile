@@ -1,6 +1,7 @@
-FROM debian:bookworm
-MAINTAINER Jean Pommier "jp@pi-geosolutions.fr"
-# Gives a SSH access + restic and a few useful tools
+FROM debian:trixie
+LABEL org.opencontainers.image.authors="jean.pommier@pi-geosolutions.fr"
+LABEL version="1.1.0"
+LABEL description="Gives a SSH access + restic and a few useful tools"
 
 ENV SSH_KEY_FILE ""
 ENV SSH_KEY ""
@@ -16,6 +17,7 @@ RUN apt-get update && \
     apt-get install -y \
                 acl \
                 bzip2 \
+                cron \
                 curl \
                 git \
                 ldap-utils \
