@@ -21,9 +21,15 @@ chmod 600 /root/.ssh/authorized_keys
 
 # Set id_rsa key. Useful for Git access for geoserver-datadir
 # if using a key configured for the gitlab account
+# ROOT_SSH_KEYS_PATH is handy on kubernetes where you can store several files inside a single secret
+# ROOT_SSH_KEYS_FILES_PATTERN will work better on docker-compose / swarm where a secret contains a single file
 if [ -n "$ROOT_SSH_KEYS_PATH" ]; then
   echo "Installing private keys from secret"
   cp $ROOT_SSH_KEYS_PATH/* /root/.ssh/
+fi
+if [ -n "$ROOT_SSH_KEYS_FILES_PATTERN" ]; then
+  echo "Installing private keys from secret"
+  cp $ROOT_SSH_KEYS_FILES_PATTERN /root/.ssh/
 fi
 chmod -R go-rx ~/.ssh
 

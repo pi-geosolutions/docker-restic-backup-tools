@@ -3,15 +3,6 @@ LABEL org.opencontainers.image.authors="jean.pommier@pi-geosolutions.fr"
 LABEL version="1.1.0"
 LABEL description="Gives a SSH access + restic and a few useful tools"
 
-ENV SSH_KEY_FILE ""
-ENV SSH_KEY ""
-ENV RESTIC_REPOSITORY ""
-ENV RESTIC_PASSWORD_FILE ""
-ENV RESTIC_OPTION_FILE ""
-ENV RESTIC_OPTION ""
-ENV SSH_PASSWD_FILE ""
-
-
 # install ssh server + system utilities
 RUN apt-get update && \
     apt-get install -y \
@@ -29,14 +20,11 @@ RUN apt-get update && \
                 rsync \
                 sshpass \
                 vim \
-                wget
+                wget \
+    && rm -rf /var/lib/apt/lists/*
 
-# Upgrade restic to latest release as documented on
-# https://restic.readthedocs.io/en/latest/020_installation.html#official-binaries
-RUN restic self-update
-
-RUN mkdir /var/run/sshd && \
-    chmod 0755 /var/run/sshd
+# RUN mkdir /var/run/sshd && \
+#     chmod 0755 /var/run/sshd
 
 EXPOSE 22
 
@@ -46,6 +34,14 @@ COPY root /
 RUN chmod +x /root/scripts/* &&\
     chmod +x /entrypoint.sh &&\
     chmod +x /docker-entrypoint.d/*
+
+# ENV SSH_KEY_FILE=""
+# ENV SSH_KEY=""
+# ENV RESTIC_REPOSITORY=""
+# ENV RESTIC_PASSWORD_FILE=""
+# ENV RESTIC_OPTION_FILE=""
+# ENV RESTIC_OPTION=""
+# ENV SSH_PASSWD_FILE=""
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

@@ -17,7 +17,8 @@ backup through SFTP on a synology NAS (see below for how to set the env var for 
 - `RESTIC_REPOSITORY` cf [restic's documentation](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html)
 - `RESTIC_PASSWORD_FILE` cf [restic's documentation](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html)
 - `RESTIC_OPTION` restic allows you to set some options. For SFTP connection, using an option, you can define tricky stuff on the ssh connection, like port, load password without exposing it, etc
-- `SSH_RSA_PRIVATE_KEY_FILE` (optional) allows you to set the private RSA key file for the root user. Can be useful to allow push on some git repos
+- `ROOT_SSH_KEYS_PATH` (optional) allows you to set the private SSH keys for the root user. Can be useful to allow push on some git repos for instance. 
+- `ROOT_SSH_KEYS_FILES_PATTERN` (optional): the `ROOT_SSH_KEYS_PATH` option is handy on Kubernetes, but not so much on docker compose where secrets are one-file-only items. This allows to provide a blob pattern so that selected files will be copied under /root/.ssh/, e.g. /run/secrets/id_ed25519*
 - `KEEP_POLICY`: policy for clearing old backups. See https://restic.readthedocs.io/en/stable/060_forget.html. Default is `--keep-daily 7 --keep-weekly 5 --keep-monthly 12` which means 1 snapshot for each one of the 7 last days + 1 snapshot for each one of the 4 following weeks + 1 snapshot for each of the 12 last months. Applies only to house-keeping.sh script, that does the cleaning (call the container with this script as command)
 
 There are specific env vars, documented in the following section
